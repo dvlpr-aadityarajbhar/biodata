@@ -511,12 +511,9 @@
 // }
 
 import 'dart:convert';
-import 'dart:typed_data';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import 'package:intl/intl.dart';
 import '../request/education_details_api.dart';
 import 'AllDetailsPage.dart';
 import 'biodata_preview_page.dart';
@@ -584,6 +581,18 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
         isLoading = false;
         errorMessage = 'Error: $error';
       });
+    }
+  }
+
+  String formatDate(String? date) {
+    if (date == null) return ''; // Handle null case
+    try {
+      // Parse the incoming date in 'yyyy-MM-dd HH:mm:ss' format
+      DateTime parsedDate = DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
+      // Format it to 'dd-MM-yyyy' (e.g., 12-06-2000)
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      return date; // Return original date if parsing fails
     }
   }
 
@@ -657,8 +666,12 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
           height: 100,
           width: 100,
           decoration: BoxDecoration(
-            color: Colors.red,
             borderRadius: BorderRadius.circular(10),
+          ),
+          child: Image.asset(
+            "assets/images/profile.png",
+            height: 150,
+            width: 150,
           ),
         ),
       ),
@@ -807,7 +820,24 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
                                 children: [
                                   Positioned(
                                     top:
-                                        10, // Adjust this value as needed to position it correctly
+                                        5, // Adjust this value as needed to position it correctly
+                                    left: 180,
+                                    child: Text(
+                                      "Biodata",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors
+                                            .black, // Change this to your desired color
+                                        fontSize:
+                                            12, // Adjust font size as needed
+                                      ),
+                                      textAlign: TextAlign
+                                          .center, // Center align the text
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top:
+                                        18, // Adjust this value as needed to position it correctly
                                     left: 50,
                                     child: Text(
                                       "Personal Details",
@@ -827,7 +857,9 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
                                       'Name': biodataDetails?['username'],
                                       'Caste': biodataDetails?['caste'],
                                       'Subcaste': biodataDetails?['subcaste'],
-                                      'Birthdate': biodataDetails?['birthdate'],
+                                      'Birthdate': formatDate(
+                                        biodataDetails?['birthdate'],
+                                      ),
                                       'Birthtime': biodataDetails?['birthtime'],
                                       'Birthplace':
                                           biodataDetails?['birthplace'],
@@ -857,8 +889,6 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
                                           biodataDetails?['no_of_brothers'],
                                       'Total Sisters':
                                           biodataDetails?['no_of_sisters'],
-                                      // 'Bloodgroup':
-                                      //     biodataDetails?['blood_group'],
                                       'Relatives': biodataDetails?[
                                           'surname_of_relatives'],
                                       'Resi.Address':
@@ -983,6 +1013,19 @@ class _TemplateDetailPageState extends State<TemplateDetailPage> {
                                   width: 2), // Set border color and width
                             ),
                             onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => BiodataPreviewPage(
+                                    templateImage: widget
+                                        .selectedTemplateUrl, // Pass template image URL
+                                    // Pass biodata details
+                                    biodataId: EducationDetailsRequest()
+                                        .newBiodataId
+                                        .toString(),
+                                  ),
+                                ),
+                              );
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(

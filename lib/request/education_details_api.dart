@@ -240,6 +240,7 @@
 //   }
 // }
 
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
@@ -262,9 +263,11 @@ class EducationDetailsRequest {
     String userName,
     String caste,
     String subCaste,
+    String birthDate,
     String birthTime,
     String birthPlace,
     String height,
+    String bloodGroup,
     String gothra,
     String complexion,
     // String matri_id,
@@ -284,9 +287,11 @@ class EducationDetailsRequest {
       'username': userName,
       'caste': caste,
       'subcaste': subCaste,
+      'birthdate': birthDate,
       'birthtime': birthTime,
       'birthplace': birthPlace,
       'height': height,
+      'blood_group': bloodGroup,
       'gothra': gothra,
       'complexion': complexion,
       'matri_id': matriId, // Send the saved matri_id
@@ -384,6 +389,59 @@ class EducationDetailsRequest {
     }
   }
 
+  Future<void> swappingFieldApi(
+    String fieldTitle,
+    int ordering,
+  ) async {
+    Uri url = Uri.parse(
+        "https://techfluxsolutions.com/royal_maratha/api/swapping_feild");
+
+    // Retrieve SharedPreferences instance
+    SharedPreferences pref = await SharedPreferences.getInstance();
+    // Retrieve biodata_id and matri_id
+    int? biodataId = pref.getInt("biodata_id");
+    String? matriId = pref.getString("matri_id");
+
+    // Log for debugging
+    log("Bio ID: $biodataId");
+    log("Matri ID: $matriId");
+
+    if (biodataId == null || matriId == null) {
+      log("Biodata ID or Matri ID is null. Cannot proceed.");
+      return;
+    }
+
+    var payload = {
+      "bio_id": biodataId,
+      "matri_id": matriId,
+      "field_title": fieldTitle,
+      "ordering":
+          ordering.toString(), // Convert int to string as required by API
+    };
+
+    try {
+      http.Response res = await http.post(
+        url,
+        body: jsonEncode(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        log("Field swapped successfully: ${res.statusCode}");
+        log("Response: ${res.body}");
+      } else {
+        log("Failed to swap field: ${res.statusCode}");
+        log("Error response: ${res.body}");
+      }
+    } catch (e, t) {
+      log("Exception occurred while swapping field: $e");
+      log("Stacktrace: $t");
+    }
+  }
+
   Future<void> familyDetailsApi(
     String fathersName,
     String fatherOccupation,
@@ -452,8 +510,7 @@ class EducationDetailsRequest {
   Future<void> otherDetailsApi(
     String property,
     String expectation,
-    String email,
-    String contact,
+
     // int biodataId,
     // String matriId,
   ) async {
@@ -470,8 +527,6 @@ class EducationDetailsRequest {
     var payload = {
       "property": property,
       "expectations": expectation,
-      "email": email,
-      "contact": contact,
       "matri_id": matriId,
       "biodata_id": biodataId,
     };

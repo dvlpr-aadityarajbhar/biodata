@@ -1903,6 +1903,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 import 'package:flutter/rendering.dart';
+import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -1972,39 +1973,107 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
 
   Widget _buildField(String title, String? value) {
     return Text(
-      '$title: ${value ?? 'N/A'}',
-      style: TextStyle(fontSize: 14, color: Colors.black),
+      '$title ${value ?? 'N/A'}',
+      style: TextStyle(
+        fontSize: 12,
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+      ),
     );
   }
+
+  String formatDate(String? date) {
+    if (date == null) return ''; // Handle null case
+    try {
+      // Parse the incoming date in 'yyyy-MM-dd HH:mm:ss' format
+      DateTime parsedDate = DateFormat('yyyy-MM-dd HH:mm:ss').parse(date);
+      // Format it to 'dd-MM-yyyy' (e.g., 12-06-2000)
+      return DateFormat('dd-MM-yyyy').format(parsedDate);
+    } catch (e) {
+      return date; // Return original date if parsing fails
+    }
+  }
+
+  // Future<void> _captureAndSaveAsPdf() async {
+  //   try {
+  //     // Capture the widget as an image
+  //     RenderRepaintBoundary boundary = _globalKey.currentContext!
+  //         .findRenderObject() as RenderRepaintBoundary;
+  //     ui.Image image = await boundary.toImage(pixelRatio: 1.0);
+  //     ByteData? byteData =
+  //         await image.toByteData(format: ui.ImageByteFormat.png);
+  //     Uint8List pngBytes = byteData!.buffer.asUint8List();
+
+  //     // Create a PDF document
+  //     final pdf = pw.Document();
+  //     final imageMemory = pw.MemoryImage(pngBytes);
+
+  //     // Add the captured image as a page in the PDF
+  //     pdf.addPage(
+  //       pw.Page(
+  //         build: (pw.Context context) {
+  //           return pw.Center(
+  //             child: pw.Image(imageMemory),
+  //           );
+  //         },
+  //       ),
+  //     );
+
+  //     // Save the PDF to the Downloads directory
+  //     final directory =
+  //         await getExternalStorageDirectory(); // This will provide the external storage directory
+  //     final path =
+  //         '${directory!.path}/biodata_preview.pdf'; // Specify file name
+  //     final file = File(path);
+  //     await file.writeAsBytes(await pdf.save());
+
+  //     print("PDF saved to: $path");
+
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('PDF saved successfully! Path: $path')),
+  //     );
+  //   } catch (e) {
+  //     print("Error saving PDF: $e");
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Error saving PDF!')),
+  //     );
+  //   }
+  // }
 
   Future<void> _captureAndSaveAsPdf() async {
     try {
       // Capture the widget as an image
       RenderRepaintBoundary boundary = _globalKey.currentContext!
           .findRenderObject() as RenderRepaintBoundary;
-      ui.Image image = await boundary.toImage(pixelRatio: 3.0);
+      ui.Image image = await boundary.toImage(
+          pixelRatio: 5.0); // Higher pixel ratio for better quality
       ByteData? byteData =
           await image.toByteData(format: ui.ImageByteFormat.png);
       Uint8List pngBytes = byteData!.buffer.asUint8List();
 
       // Create a PDF document
       final pdf = pw.Document();
-      final imageMemory = pw.MemoryImage(pngBytes);
 
-      // Add the captured image as a page in the PDF
+      // Convert captured image to a PDF page
+      final imageMemory = pw.MemoryImage(pngBytes);
       pdf.addPage(
         pw.Page(
+          pageFormat: PdfPageFormat.a6, // You can adjust the page format
           build: (pw.Context context) {
-            return pw.Center(
-              child: pw.Image(imageMemory),
+            return pw.Container(
+              height: double.infinity,
+              width: double.infinity,
+              child: pw.Image(
+                imageMemory,
+                fit: pw.BoxFit.cover,
+              ), // Ensure the image fits the page
             );
           },
         ),
       );
 
-      // Save the PDF to the Downloads directory
-      final directory =
-          await getExternalStorageDirectory(); // This will provide the external storage directory
+      // Save the PDF to the device's external storage
+      final directory = await getExternalStorageDirectory();
       final path =
           '${directory!.path}/biodata_preview.pdf'; // Specify file name
       final file = File(path);
@@ -2042,23 +2111,76 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
               : RepaintBoundary(
                   key: _globalKey,
                   child: Container(
-                    color: Colors.grey.shade400,
+                    // color: Colors.grey.shade400,
+                    width: double.infinity,
+                    height: double.infinity,
                     child: Stack(
                       children: [
                         // Background template image
-                        Positioned.fill(
+                        Positioned(
                           child: Container(
-                            decoration: BoxDecoration(
-                              image: DecorationImage(
-                                image: NetworkImage(widget.templateImage),
-                                fit: BoxFit.cover,
-                              ),
+                            width: double.infinity,
+                            height: double.infinity,
+                            // decoration: BoxDecoration(
+                            //   image: DecorationImage(
+                            //     image: AssetImage(
+                            //       "assets/images/frame_5.png",
+                            //     ),
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            // ),
+                            child: Image.network(
+                              widget.templateImage,
+                              height: double.infinity,
+                              width: double.infinity,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                         // Personal Details Section
                         Positioned(
-                          top: 20,
+                          left: 180,
+                          top: 55,
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(),
+                            child: Text(
+                              "Biodata",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          right: 20,
+                          top: 110,
+                          child: Container(
+                            height: 100,
+                            width: 100,
+                            decoration: BoxDecoration(),
+                            child: Image.asset(
+                              "assets/images/profile.png",
+                              height: 100,
+                              width: 100,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          left: 80,
+                          top: 25,
+                          child: Text(
+                            biodataDetails?['title'],
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          top: 80,
                           left: 20,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2070,36 +2192,44 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                                     fontSize: 18,
                                     color: Colors.black),
                               ),
+                              _buildField('Full Name:                    ',
+                                  biodataDetails?['username']),
+                              _buildField('Caste:                           ',
+                                  biodataDetails?['caste']),
+                              _buildField('Subcaste:                     ',
+                                  biodataDetails?['subcaste']),
                               _buildField(
-                                  'Full Name', biodataDetails?['username']),
-                              _buildField('Caste', biodataDetails?['caste']),
-                              _buildField(
-                                  'Subcaste', biodataDetails?['subcaste']),
-                              _buildField(
-                                  'Birthdate', biodataDetails?['birthdate']),
-                              _buildField(
-                                  'Birthtime', biodataDetails?['birthtime']),
-                              _buildField(
-                                  'Birthplace', biodataDetails?['birthplace']),
-                              _buildField('Height', biodataDetails?['height']),
-                              _buildField('Blood Group',
+                                'Birthdate:                     ',
+                                formatDate(
+                                  biodataDetails?['birthdate'],
+                                ),
+                              ),
+                              _buildField('Birthtime:                     ',
+                                  biodataDetails?['birthtime']),
+                              _buildField('Birthplace:                    ',
+                                  biodataDetails?['birthplace']),
+                              _buildField('Height:                          ',
+                                  biodataDetails?['height']),
+                              _buildField('Blood Group:                ',
                                   biodataDetails?['blood_group']),
-                              _buildField('Mobile', biodataDetails?['mobile']),
-                              _buildField('Devak', biodataDetails?['gothra']),
-                              _buildField(
-                                  'Complexion', biodataDetails?['complexion']),
-                              _buildField('Education',
+                              _buildField('Mobile:                          ',
+                                  biodataDetails?['mobile']),
+                              _buildField('Devak:                           ',
+                                  biodataDetails?['gothra']),
+                              _buildField('Complexion:                 ',
+                                  biodataDetails?['complexion']),
+                              _buildField('Education:                    ',
                                   biodataDetails?['education_level']),
-                              _buildField(
-                                  'Occupation', biodataDetails?['occupation']),
-                              _buildField(
-                                  'Annual Income', biodataDetails?['income']),
+                              _buildField('Occupation:                 ',
+                                  biodataDetails?['occupation']),
+                              _buildField('Annual Income:           ',
+                                  biodataDetails?['income']),
                             ],
                           ),
                         ),
                         // Family Details Section
                         Positioned(
-                          top: 340,
+                          top: 350,
                           left: 20,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2111,25 +2241,36 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                                     fontSize: 18,
                                     color: Colors.black),
                               ),
-                              _buildField('Father\'s Name',
-                                  biodataDetails?['father_name']),
-                              _buildField('Father\'s Occupation',
-                                  biodataDetails?['father_occupation']),
-                              _buildField('Mother\'s Name',
-                                  biodataDetails?['mother_name']),
-                              _buildField('Mother\'s Occupation',
-                                  biodataDetails?['mother_occupation']),
-                              _buildField('Total Brothers',
-                                  biodataDetails?['no_of_brothers'].toString()),
-                              _buildField('Total Sisters',
-                                  biodataDetails?['no_of_sisters'].toString()),
+                              _buildField(
+                                'Father\'s Name:             ',
+                                biodataDetails?['father_name'],
+                              ),
+                              _buildField(
+                                'Father\'s Occupation:    ',
+                                biodataDetails?['father_occupation'],
+                              ),
+                              _buildField(
+                                'Mother\'s Name:            ',
+                                biodataDetails?['mother_name'],
+                              ),
+                              _buildField(
+                                'Mother\'s Occupation:   ',
+                                biodataDetails?['mother_occupation'],
+                              ),
+                              _buildField(
+                                'Total Brothers:              ',
+                                biodataDetails?['no_of_brothers'].toString(),
+                              ),
+                              _buildField(
+                                'Total Sisters:                 ',
+                                biodataDetails?['no_of_sisters'].toString(),
+                              ),
                             ],
                           ),
                         ),
                         // Other Details Section
                         Positioned(
-                          top:
-                              500, // Adjust this value to position the other details
+                          top: 490,
                           left: 20,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -2141,16 +2282,26 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                                     fontSize: 18,
                                     color: Colors.black),
                               ),
-                              _buildField('Relatives',
-                                  biodataDetails?['surname_of_relatives']),
-                              _buildField('Residential Address',
-                                  biodataDetails?['address']),
-                              _buildField('Native Place',
-                                  biodataDetails?['native_taluka']),
                               _buildField(
-                                  'Property', biodataDetails?['property']),
-                              _buildField('Expectations',
-                                  biodataDetails?['expectations']),
+                                'Relatives:                       ',
+                                biodataDetails?['surname_of_relatives'],
+                              ),
+                              _buildField(
+                                'Residential Address:    ',
+                                biodataDetails?['address'],
+                              ),
+                              _buildField(
+                                'Native Place:                 ',
+                                biodataDetails?['native_taluka'],
+                              ),
+                              _buildField(
+                                'Property:                        ',
+                                biodataDetails?['property'],
+                              ),
+                              _buildField(
+                                'Expectations:                ',
+                                biodataDetails?['expectations'],
+                              ),
                             ],
                           ),
                         ),
@@ -2159,7 +2310,7 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                   ),
                 ),
       bottomNavigationBar: Container(
-        height: 40,
+        height: 60,
         color: Colors.grey.shade300,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

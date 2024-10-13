@@ -249,8 +249,10 @@ class _OtherDetailsSectionState extends State<OtherDetailsSection> {
             String contact = contactController.text;
 
             // Call the API with all the gathered data
-            await EducationDetailsRequest()
-                .otherDetailsApi(property, expectation, email, contact);
+            await EducationDetailsRequest().otherDetailsApi(
+              property,
+              expectation,
+            );
           },
           child: Text("Submit Other Details"),
         ),

@@ -1556,7 +1556,6 @@
 // // }
 
 // import 'dart:convert';
-// import 'package:bio_data/controller/home_screen_controller.dart';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
 // import 'package:intl/intl.dart';
@@ -1732,27 +1731,27 @@
 //     }
 //   }
 
-//   // Future<void> _deleteBiodata(String? id) async {
-//   //   if (id == null) return; // Check if id is null before proceeding
-//   //   final controller =
-//   //       Provider.of<DeleteTemplateController>(context, listen: false);
-//   //   await controller.deleteBiodata(id, _authToken);
+//   Future<void> _deleteBiodata(String? id) async {
+//     if (id == null) return; // Check if id is null before proceeding
+//     final controller =
+//         Provider.of<DeleteTemplateController>(context, listen: false);
+//     await controller.deleteBiodata(id, _authToken);
 
-//   //   if (controller.errorMessage != null) {
-//   //     ScaffoldMessenger.of(context).showSnackBar(
-//   //       SnackBar(content: Text(controller.errorMessage!)),
-//   //     );
-//   //   } else if (controller.successMessage != null) {
-//   //     ScaffoldMessenger.of(context).showSnackBar(
-//   //       SnackBar(content: Text(controller.successMessage!)),
-//   //     );
+//     if (controller.errorMessage != null) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text(controller.errorMessage!)),
+//       );
+//     } else if (controller.successMessage != null) {
+//       ScaffoldMessenger.of(context).showSnackBar(
+//         SnackBar(content: Text(controller.successMessage!)),
+//       );
 
-//   //     // Optionally, refresh the biodata list after deletion
-//   //     final biodataController =
-//   //         Provider.of<ShowbiodataController>(context, listen: false);
-//   //     await biodataController.fetchBiodata();
-//   //   }
-//   // }
+//       // Optionally, refresh the biodata list after deletion
+//       final biodataController =
+//           Provider.of<ShowbiodataController>(context, listen: false);
+//       await biodataController.fetchBiodata();
+//     }
+//   }
 
 //   @override
 //   Widget build(BuildContext context) {
@@ -1791,739 +1790,332 @@
 //             Row(
 //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
 //               children: [
-//             //     Expanded(
-//             //       child: ElevatedButton.icon(
-//             //         onPressed: () {
-//             //           Navigator.push(
-//             //             context,
-//             //             MaterialPageRoute(
-//             //                 builder: (context) => AllDetailsPage()),
-//             //           );
-//             //         },
-//             //         icon: const Icon(Icons.brush, size: 18),
-//             //         label: const Text(
-//             //           'Create Biodata',
-//             //           style: TextStyle(fontSize: 14),
-//             //         ),
-//             //         style: ElevatedButton.styleFrom(
-//             //           backgroundColor: Colors.red,
-//             //           foregroundColor: Colors.white,
-//             //           padding: const EdgeInsets.symmetric(
-//             //               horizontal: 8, vertical: 10),
-//             //           shape: RoundedRectangleBorder(
-//             //             borderRadius: BorderRadius.circular(8),
-//             //           ),
-//             //         ),
-//             //       ),
-//             //     ),
-//             //     const SizedBox(width: 8),
-//             //     Consumer<HomeScreenController>(
-//             //         builder: (context, controller, _) {
-//             //       return Expanded(
-//             //         child: ElevatedButton.icon(
-//             //           onPressed: () async {
-//             //             // Call the addDummySampleApi when button is pressed
-//             //             await controller.createBiodataApi();
-//             //             ListView.builder(
-//             //               itemCount: controller.userData.length,
-//             //               itemBuilder: (context, index) {
-//             //                 final biodata = controller.userData[index];
+//                 Expanded(
+//                   child: ElevatedButton.icon(
+//                     onPressed: () {
+//                       Navigator.push(
+//                         context,
+//                         MaterialPageRoute(
+//                             builder: (context) => AllDetailsPage()),
+//                       );
+//                     },
+//                     icon: const Icon(Icons.brush, size: 18),
+//                     label: const Text(
+//                       'Create Biodata',
+//                       style: TextStyle(fontSize: 14),
+//                     ),
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: Colors.red,
+//                       foregroundColor: Colors.white,
+//                       padding: const EdgeInsets.symmetric(
+//                           horizontal: 8, vertical: 10),
+//                       shape: RoundedRectangleBorder(
+//                         borderRadius: BorderRadius.circular(8),
+//                       ),
+//                     ),
+//                   ),
+//                 ),
+//                 const SizedBox(width: 8),
+//                 // Expanded(
+//                 //   child: ElevatedButton.icon(
+//                 //     onPressed: () {},
+//                 //     icon: const Icon(Icons.add, size: 18),
+//                 //     label: const Text(
+//                 //       'Add Sample',
+//                 //       style: TextStyle(fontSize: 14),
+//                 //     ),
+//                 //     style: ElevatedButton.styleFrom(
+//                 //       backgroundColor: const Color(0xFFFF5507),
+//                 //       foregroundColor: Colors.white,
+//                 //       padding: const EdgeInsets.symmetric(
+//                 //           horizontal: 8, vertical: 10),
+//                 //       shape: RoundedRectangleBorder(
+//                 //           borderRadius: BorderRadius.circular(10)),
+//                 //     ),
+//                 //   ),
+//                 // ),
+//                 Expanded(
+//                   child: ElevatedButton.icon(
+//                     onPressed: () async {
+//                       // Call the addDummySampleApi when button is pressed
+//                       await addDummySampleApi();
+//                     },
+//                     icon: const Icon(Icons.add, size: 18),
+//                     label: const Text(
+//                       'Add Sample',
+//                       style: TextStyle(fontSize: 14),
+//                     ),
+//                     style: ElevatedButton.styleFrom(
+//                       backgroundColor: const Color(0xFFFF5507),
+//                       foregroundColor: Colors.white,
+//                       padding: const EdgeInsets.symmetric(
+//                           horizontal: 8, vertical: 10),
+//                       shape: RoundedRectangleBorder(
+//                           borderRadius: BorderRadius.circular(10)),
+//                     ),
+//                   ),
+//                 ),
+//               ],
+//             ),
+//             const SizedBox(height: 15),
+//             Expanded(
+//               child: Consumer<ShowbiodataController>(
+//                 builder: (context, controller, _) {
+//                   if (controller.loading) {
+//                     return const Center(
+//                       child: CircularProgressIndicator(),
+//                     );
+//                   }
 
-//             //                 return Card(
-//             //                   color: Colors.white,
-//             //                   elevation: 5,
-//             //                   shape: RoundedRectangleBorder(
-//             //                       borderRadius: BorderRadius.circular(10)),
-//             //                   margin: const EdgeInsets.symmetric(
-//             //                       vertical: 5, horizontal: 10),
-//             //                   child: Padding(
-//             //                     padding: const EdgeInsets.symmetric(
-//             //                         vertical: 8.0, horizontal: 10.0),
-//             //                     child: Column(
-//             //                       crossAxisAlignment: CrossAxisAlignment.start,
-//             //                       children: [
-//             //                         ListTile(
-//             //                           leading: CircleAvatar(
-//             //                             backgroundImage: AssetImage(
-//             //                                 "assets/images/profile.png"),
-//             //                             radius: 30,
-//             //                           ),
-//             //                           title: Text(
-//             //                             '${biodata.username}',
-//             //                             style: const TextStyle(
-//             //                                 fontWeight: FontWeight.bold),
-//             //                           ),
-//             //                           subtitle: Text(
-//             //                             'Caste: ${biodata.caste ?? 'Maratha'} \nHeight: ${biodata.height}',
-//             //                           ),
-//             //                         ),
-//             //                         Container(
-//             //                           color: Colors.grey[200],
-//             //                           child: Row(
-//             //                             mainAxisAlignment:
-//             //                                 MainAxisAlignment.spaceAround,
-//             //                             children: [
-//             //                               IconButton(
-//             //                                   icon: const Icon(Icons.edit,
-//             //                                       color: Colors.grey),
-//             //                                   onPressed: () {}),
-//             //                               IconButton(
-//             //                                 icon: const Icon(Icons.copy,
-//             //                                     color: Colors.grey),
-//             //                                 onPressed: () {
-//             //                                   // Implement copy functionality if needed
-//             //                                 },
-//             //                               ),
-//             //                               IconButton(
-//             //                                 icon: const Icon(Icons.delete,
-//             //                                     color: Colors.grey),
-//             //                                 onPressed: () {},
-//             //                               ),
-//             //                               IconButton(
-//             //                                 icon: const Icon(Icons.file_copy,
-//             //                                     color: Colors.grey),
-//             //                                 onPressed: () {},
-//             //                               ),
-//             //                             ],
-//             //                           ),
-//             //                         ),
-//             //                       ],
-//             //                     ),
-//             //                   ),
-//             //                 );
-//             //               },
-//             //             );
-//             //           },
-//             //           icon: const Icon(Icons.add, size: 18),
-//             //           label: const Text(
-//             //             'Add Sample',
-//             //             style: TextStyle(fontSize: 14),
-//             //           ),
-//             //           style: ElevatedButton.styleFrom(
-//             //             backgroundColor: const Color(0xFFFF5507),
-//             //             foregroundColor: Colors.white,
-//             //             padding: const EdgeInsets.symmetric(
-//             //                 horizontal: 8, vertical: 10),
-//             //             shape: RoundedRectangleBorder(
-//             //                 borderRadius: BorderRadius.circular(10)),
-//             //           ),
-//             //         ),
-//             //       );
-//             //     }),
-//             //   ],
-//             // ),
-//             // const SizedBox(height: 15),
-//             // Expanded(
-//             //   child: Consumer<ShowbiodataController>(
-//             //     builder: (context, controller, _) {
-//             //       if (controller.loading) {
-//             //         return const Center(
-//             //           child: CircularProgressIndicator(),
-//             //         );
-//             //       }
+//                   if (controller.userData.isEmpty) {
+//                     return const Center(
+//                       child: Text('No data available'),
+//                     );
+//                   }
 
-//             //       if (controller.userData.isEmpty) {
-//             //         return const Center(
-//             //           child: Text('No data available'),
-//             //         );
-//             //       }
+//                   return ListView.builder(
+//                     itemCount: controller.userData.length,
+//                     itemBuilder: (context, index) {
+//                       final biodata = controller.userData[index];
 
-//             //       return ListView.builder(
-//             //         itemCount: controller.userData.length,
-//             //         itemBuilder: (context, index) {
-//             //           final biodata = controller.userData[index];
+//                       return Card(
+//                         color: Colors.white,
+//                         elevation: 5,
+//                         shape: RoundedRectangleBorder(
+//                             borderRadius: BorderRadius.circular(10)),
+//                         margin: const EdgeInsets.symmetric(
+//                             vertical: 5, horizontal: 10),
+//                         child: Padding(
+//                           padding: const EdgeInsets.symmetric(
+//                               vertical: 8.0, horizontal: 10.0),
+//                           child: Column(
+//                             crossAxisAlignment: CrossAxisAlignment.start,
+//                             children: [
+//                               ListTile(
+//                                 leading: CircleAvatar(
+//                                   radius: 30,
+//                                 ),
+//                                 title: Text(
+//                                   '${biodata['username'] ?? 'John'}',
+//                                   style: const TextStyle(
+//                                       fontWeight: FontWeight.bold),
+//                                 ),
+//                                 subtitle: Text(
+//                                   'Caste: ${biodata['caste'] ?? 'Maratha'} \nDOB: ${formatDate(biodata['birthdate'])}',
+//                                 ),
+//                               ),
+//                               Container(
+//                                 color: Colors.grey[200],
+//                                 child: Row(
+//                                   mainAxisAlignment:
+//                                       MainAxisAlignment.spaceAround,
+//                                   children: [
+//                                     IconButton(
+//                                       icon: const Icon(Icons.edit,
+//                                           color: Colors.grey),
+//                                       onPressed: () {
+//                                         // Implement edit functionality
+//                                         Navigator.push(
+//                                           context,
+//                                           MaterialPageRoute(
+//                                             builder: (context) =>
+//                                                 AllDetailsPage(),
+//                                           ),
+//                                         );
+//                                       },
+//                                     ),
+//                                     IconButton(
+//                                       icon: const Icon(Icons.copy,
+//                                           color: Colors.grey),
+//                                       onPressed: () {
+//                                         // Implement copy functionality if needed
+//                                       },
+//                                     ),
+//                                     IconButton(
+//                                       icon: const Icon(Icons.delete,
+//                                           color: Colors.grey),
+//                                       onPressed: () {
+//                                         _showDeleteConfirmationDialog(
+//                                           context,
+//                                           biodata['id']?.toString(),
+//                                         );
+//                                       },
+//                                     ),
+//                                     IconButton(
+//                                       icon: const Icon(Icons.file_copy,
+//                                           color: Colors.grey),
+//                                       onPressed: () {
+//                                         // Implement template change functionality
+//                                         Navigator.push(
+//                                           context,
+//                                           MaterialPageRoute(
+//                                             builder: (context) =>
+//                                                 TemplateSelectionPage(
+//                                               id: (biodata['id'] ?? '')
+//                                                   .toString(),
+//                                             ),
+//                                           ),
+//                                         );
+//                                       },
+//                                     ),
+//                                   ],
+//                                 ),
+//                               ),
+//                             ],
+//                           ),
+//                         ),
+//                       );
+//                     },
+//                   );
+//                 },
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
 
-//             //           return Card(
-//             //             color: Colors.white,
-//             //             elevation: 5,
-//             //             shape: RoundedRectangleBorder(
-//             //                 borderRadius: BorderRadius.circular(10)),
-//             //             margin: const EdgeInsets.symmetric(
-//             //                 vertical: 5, horizontal: 10),
-//             //             child: Padding(
-//             //               padding: const EdgeInsets.symmetric(
-//             //                   vertical: 8.0, horizontal: 10.0),
-//             //               child: Column(
-//             //                 crossAxisAlignment: CrossAxisAlignment.start,
-//             //                 children: [
-//             //                   ListTile(
-//             //                     leading: CircleAvatar(
-//             //                       backgroundImage:
-//             //                           AssetImage("assets/images/profile.png"),
-//             //                       radius: 30,
-//             //                     ),
-//             //                     title: Text(
-//             //                       '${biodata['username'] ?? 'John'}',
-//             //                       style: const TextStyle(
-//             //                           fontWeight: FontWeight.bold),
-//             //                     ),
-//             //                     subtitle: Text(
-//             //                       'Caste: ${biodata['caste'] ?? 'Maratha'} \nHeight: ${biodata['height']}',
-//             //                     ),
-//             //                   ),
-//             //                   Container(
-//             //                     color: Colors.grey[200],
-//             //                     child: Row(
-//             //                       mainAxisAlignment:
-//             //                           MainAxisAlignment.spaceAround,
-//             //                       children: [
-//             //                         IconButton(
-//             //                           icon: const Icon(Icons.edit,
-//             //                               color: Colors.grey),
-//             //                           onPressed: () {
-//             //                             // Implement edit functionality
-//             //                             Navigator.push(
-//             //                               context,
-//             //                               MaterialPageRoute(
-//             //                                 builder: (context) =>
-//             //                                     AllDetailsPage(),
-//             //                               ),
-//             //                             );
-//             //                           },
-//             //                         ),
-//             //                         IconButton(
-//             //                           icon: const Icon(Icons.copy,
-//             //                               color: Colors.grey),
-//             //                           onPressed: () {
-//             //                             // Implement copy functionality if needed
-//             //                           },
-//             //                         ),
-//             //                         IconButton(
-//             //                           icon: const Icon(Icons.delete,
-//             //                               color: Colors.grey),
-//             //                           onPressed: () {
-//             //                             _showDeleteConfirmationDialog(
-//             //                               context,
-//             //                               biodata['id']?.toString(),
-//             //                             );
-//             //                           },
-//             //                         ),
-//             //                         IconButton(
-//             //                           icon: const Icon(Icons.file_copy,
-//             //                               color: Colors.grey),
-//             //                           onPressed: () {
-//             //                             // Implement template change functionality
-//             //                             Navigator.push(
-//             //                               context,
-//             //                               MaterialPageRoute(
-//             //                                 builder: (context) =>
-//             //                                     TemplateSelectionPage(
-//             //                                         id: (biodata['id'] ?? '')
-//             //                                             .toString()),
-//             //                               ),
-//             //                             );
-//             //                           },
-//             //                         ),
-//             //                       ],
-//             //                     ),
-//             //                   ),
-//             //                 ],
-//             //               ),
-//             //             ),
-//             //           );
-//             //         },
-//             //       );
-//             //     },
-//             //   ),
-//             // ),
-
+//   // Widget _buildBiodataCard(BuildContext context, Map<String, dynamic> biodata,
+//   //     ShowbiodataController controller) {
+//   //   return Card(
+//   //     color: Colors.white,
+//   //     elevation: 5,
+//   //     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+//   //     child: Padding(
+//   //       padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+//   //       child: Column(
+//   //         crossAxisAlignment: CrossAxisAlignment.start,
+//   //         children: [
+//   //           ListTile(
+//   //             leading: CircleAvatar(
+//   //               radius: 30,
+//   //             ),
+//   //             title: Text(
+//   //               '${biodata['username'] ?? 'John'}',
+//   //               style: const TextStyle(fontWeight: FontWeight.bold),
+//   //             ),
+//   //             subtitle: Text(
+//   //               'Caste: ${biodata['caste'] ?? 'Maratha'} \nDOB: ${formatDate(biodata['birthdate'])} ',
+//   //             ),
+//   //           ),
+//   //           Container(
+//   //             color: Colors.grey[200],
+//   //             child: Row(
+//   //               mainAxisAlignment: MainAxisAlignment.spaceAround,
+//   //               children: [
+//   //                 _buildBioOptionButton(Icons.edit, 'Edit', () {
+//   //                   // Implement edit functionality
+//   //                   Navigator.push(
+//   //                     context,
+//   //                     MaterialPageRoute(
+//   //                       builder: (context) => AllDetailsPage(),
+//   //                     ),
+//   //                   );
+//   //                 }),
+//   //                 _buildBioOptionButton(Icons.copy, 'Copy', () async {
+//   //                   // Copy the biodata and add it to the list
+//   //                   // final controller = Provider.of<ShowbiodataController>(
+//   //                   //     context,
+//   //                   //     listen: false);
+//   //                   // await controller.copyBiodataWithDelay(biodata);
+//   //                 }),
+//   //                 _buildBioOptionButton(Icons.delete, 'Delete', () {
+//   //                   // _showDeleteConfirmationDialog(context, biodata['id']);
+//   //                   _showDeleteConfirmationDialog(
+//   //                       context, biodata['id']?.toString());
+//   //                 }),
+//   //                 _buildBioOptionButton(
+//   //                   Icons.file_copy,
+//   //                   'Template',
+//   //                   () {
+//   //                     // Implement template change functionality
+//   //                     Navigator.push(
+//   //                       context,
+//   //                       MaterialPageRoute(
+//   //                         builder: (context) => TemplateSelectionPage(
+//   //                           id: (biodata['id'] ?? '').toString(),
+//   //                         ),
+//   //                       ),
+//   //                     );
+//   //                   },
+//   //                 ),
+//   //               ],
+//   //             ),
+//   //           ),
 //   //         ],
 //   //       ),
 //   //     ),
 //   //   );
 //   // }
 
-//     Expanded(
-//       child: ElevatedButton.icon(
-//         onPressed: () {
-//           // Navigate to AllDetailsPage to create a new biodata
-//           Navigator.push(
-//             context,
-//             MaterialPageRoute(
-//               builder: (context) => AllDetailsPage(),
-//             ),
-//           );
-//         },
-//         icon: const Icon(Icons.brush, size: 18),
-//         label: const Text(
-//           'Create Biodata',
-//           style: TextStyle(fontSize: 14),
+//   Widget _buildBioOptionButton(
+//       IconData icon, String label, VoidCallback onPressed) {
+//     return Column(
+//       children: [
+//         IconButton(
+//           icon: Icon(icon, color: Colors.grey[700]),
+//           onPressed: onPressed,
 //         ),
-//         style: ElevatedButton.styleFrom(
-//           backgroundColor: Colors.red,
-//           foregroundColor: Colors.white,
-//           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(8),
-//           ),
-//         ),
-//       ),
-//     ),
-//     const SizedBox(width: 8),
+//         Text(label, style: TextStyle(color: Colors.grey[700])),
+//       ],
+//     );
+//   }
 
-//     // Button to Add Sample and Update List
-//     Consumer<HomeScreenController>(
-//       builder: (context, controller, _) {
-//         return Expanded(
-//           child: ElevatedButton.icon(
-//             onPressed: () async {
-//               // Call the addDummySampleApi to create a new sample
-//               await controller.createBiodataApi();
+//   void _showDeleteConfirmationDialog(BuildContext context, String? id) {
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           title: const Text('Delete Biodata'),
+//           content: const Text(
+//               'Are you sure you want to delete this biodata? This action cannot be undone.'),
+//           actions: [
+//             TextButton(
+//               onPressed: () {
+//                 Navigator.of(context).pop(); // Close the dialog
+//               },
+//               child: const Text('Cancel'),
+//             ),
+//             TextButton(
+//               onPressed: () async {
+//                 // Confirm deletion
+//                 Navigator.of(context).pop(); // Close the dialog
+//                 if (id != null && _authToken != null) {
+//                   final controller = Provider.of<DeleteTemplateController>(
+//                       context,
+//                       listen: false);
+//                   await controller.deleteBiodata(id, _authToken);
 
-//               // After adding the new sample, fetch the updated biodata list
-//               final biodataController = Provider.of<ShowbiodataController>(context, listen: false);
-//               await biodataController.fetchBiodata();
-//             },
-//             icon: const Icon(Icons.add, size: 18),
-//             label: const Text(
-//               'Add Sample',
-//               style: TextStyle(fontSize: 14),
+//                   // Ensure the widget is still mounted
+//                   if (!mounted) return;
+
+//                   // Now you can safely access context
+//                   if (controller.errorMessage != null) {
+//                     ScaffoldMessenger.of(context).showSnackBar(
+//                       SnackBar(content: Text(controller.errorMessage!)),
+//                     );
+//                   } else if (controller.successMessage != null) {
+//                     ScaffoldMessenger.of(context).showSnackBar(
+//                       SnackBar(content: Text(controller.successMessage!)),
+//                     );
+
+//                     // Refresh the biodata list after deletion
+//                     final biodataController =
+//                         Provider.of<ShowbiodataController>(context,
+//                             listen: false);
+//                     await biodataController.fetchBiodata();
+//                   }
+//                 }
+//               },
+//               child: const Text('Delete'),
 //             ),
-//             style: ElevatedButton.styleFrom(
-//               backgroundColor: const Color(0xFFFF5507),
-//               foregroundColor: Colors.white,
-//               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-//               shape: RoundedRectangleBorder(
-//                 borderRadius: BorderRadius.circular(10),
-//               ),
-//             ),
-//           ),
+//           ],
 //         );
 //       },
-//     ),
-//   ],
-// ),
-// const SizedBox(height: 15),
+//     );
+//   }
+// }
 
-// // Displaying the Biodata List
-// Expanded(
-//   child: Consumer<ShowbiodataController>(
-//     builder: (context, controller, _) {
-//       // Show loading indicator while data is being fetched
-//       if (controller.loading) {
-//         return const Center(
-//           child: CircularProgressIndicator(),
-//         );
-//       }
 
-//       // If no biodata is available, show a message
-//       if (controller.userData.isEmpty) {
-//         return const Center(
-//           child: Text('No data available'),
-//         );
-//       }
-
-//       // Show the biodata list
-//       return ListView.builder(
-//         itemCount: controller.userData.length,
-//         itemBuilder: (context, index) {
-//           final biodata = controller.userData[index];
-
-//           return Card(
-//             color: Colors.white,
-//             elevation: 5,
-//             shape: RoundedRectangleBorder(
-//               borderRadius: BorderRadius.circular(10),
-//             ),
-//             margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-//             child: Padding(
-//               padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 10.0),
-//               child: Column(
-//                 crossAxisAlignment: CrossAxisAlignment.start,
-//                 children: [
-//                   ListTile(
-//                     leading: CircleAvatar(
-//                       backgroundImage: AssetImage("assets/images/profile.png"),
-//                       radius: 30,
-//                     ),
-//                     title: Text(
-//                       '${biodata['username'] ?? 'John'}',
-//                       style: const TextStyle(fontWeight: FontWeight.bold),
-//                     ),
-//                     subtitle: Text(
-//                       'Caste: ${biodata['caste'] ?? 'Maratha'} \nHeight: ${biodata['height']}',
-//                     ),
-//                   ),
-//                   Container(
-//                     color: Colors.grey[200],
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-//                       children: [
-//                         IconButton(
-//                           icon: const Icon(Icons.edit, color: Colors.grey),
-//                           onPressed: () {
-//                             // Edit functionality
-//                             Navigator.push(
-//                               context,
-//                               MaterialPageRoute(
-//                                 builder: (context) => AllDetailsPage(),
-//                               ),
-//                             );
-//                           },
-//                         ),
-//                         IconButton(
-//                           icon: const Icon(Icons.copy, color: Colors.grey),
-//                           onPressed: () {
-//                             // Implement copy functionality
-//                           },
-//                         ),
-//                         IconButton(
-//                           icon: const Icon(Icons.delete, color: Colors.grey),
-//                           onPressed: () {
-//                             // _showDeleteConfirmationDialog(
-//                             //   context,
-//                             //   biodata['id']?.toString(),
-//                             // );
-//                           },
-//                         ),
-//                         IconButton(
-//                           icon: const Icon(Icons.file_copy, color: Colors.grey),
-//                           onPressed: () {
-//                             // Template change functionality
-//                             Navigator.push(
-//                               context,
-//                               MaterialPageRoute(
-//                                 builder: (context) => TemplateSelectionPage(
-//                                   id: (biodata['id'] ?? '').toString(),
-//                                 ),
-//                               ),
-//                             );
-//                           },
-//                         ),
-//                       ],
-//                     ),
-//                   );
-//               )
-//               );
-//         }
-
-//   // Widget _buildBioOptionButton(
-//   //     IconData icon, String label, VoidCallback onPressed) {
-//   //   return Column(
-//   //     children: [
-//   //       IconButton(
-//   //         icon: Icon(icon, color: Colors.grey[700]),
-//   //         onPressed: onPressed,
-//   //       ),
-//   //       Text(label, style: TextStyle(color: Colors.grey[700])),
-//   //     ],
-//   //   );
-//   // }
-
-// // void _showDeleteConfirmationDialog(BuildContext context, String? id) {
-// //   showDialog(
-// //     context: context,
-// //     builder: (context) {
-// //       return AlertDialog(
-// //         title: const Text('Delete Biodata'),
-// //         content: const Text(
-// //             'Are you sure you want to delete this biodata? This action cannot be undone.'),
-// //         actions: [
-// //           TextButton(
-// //             onPressed: () {
-// //               Navigator.of(context).pop(); // Close the dialog
-// //             },
-// //             child: const Text('Cancel'),
-// //           ),
-// //           TextButton(
-// //             onPressed: () async {
-// //               // Confirm deletion
-// //               Navigator.of(context).pop(); // Close the dialog
-
-// //               // Check if id and authToken are valid
-// //               if (id != null && _authToken != null) {
-// //                 // Access the DeleteTemplateController
-// //                 final controller = Provider.of<Home>(
-// //                     context, listen: false);
-
-// //                 // Call the delete API method
-// //                 await controller.deleteBiodata(id, _authToken);
-
-// //                 // Ensure the widget is still mounted before proceeding
-// //                 if (!mounted) return;
-
-// //                 // Handle success or error messages from the controller
-// //                 if (controller.errorMessage != null) {
-// //                   ScaffoldMessenger.of(context).showSnackBar(
-// //                     SnackBar(content: Text(controller.errorMessage!)),
-// //                   );
-// //                 } else if (controller.successMessage != null) {
-// //                   ScaffoldMessenger.of(context).showSnackBar(
-// //                     SnackBar(content: Text(controller.successMessage!)),
-// //                   );
-
-// //                   // After successful deletion, refresh the biodata list
-// //                   final biodataController = Provider.of<ShowbiodataController>(
-// //                       context, listen: false);
-// //                   await biodataController.fetchBiodata();
-// //                 }
-// //               }
-// //             },
-// //             child: const Text('Delete'),
-// //           ),
-// //         ],
-// //       );
-// //     },
-// //   );
-// // }
-
-// // }
-
-import 'package:bio_data/controller/showbiodata_controller.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import '../../controller/home_screen_controller.dart';
-import '../AllDetailsPage.dart';
-import '../template_selection_page.dart';
-
-class HomePage extends StatefulWidget {
-  @override
-  _HomePageState createState() => _HomePageState();
-}
-
-class _HomePageState extends State<HomePage> {
-  @override
-  void initState() {
-    super.initState();
-
-    // Fetch biodata list when the screen loads
-    final showBiodataController =
-        Provider.of<ShowbiodataController>(context, listen: false);
-    showBiodataController.fetchBiodata();
-  }
-
-  bool sampleTrigger = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Biodata List'),
-      ),
-      body: Column(
-        children: [
-          // Buttons for creating and adding samples
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    // Navigate to AllDetailsPage to create a new biodata
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => AllDetailsPage(),
-                      ),
-                    );
-                  },
-                  icon: const Icon(Icons.brush, size: 18),
-                  label: const Text(
-                    'Create Biodata',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red,
-                    foregroundColor: Colors.white,
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-
-              // Button to Add Sample and Update List
-              Consumer<HomeScreenController>(
-                builder: (context, controller, _) {
-                  return Expanded(
-                    child: ElevatedButton.icon(
-                      onPressed: () async {
-                        setState(() {
-                          sampleTrigger = true;
-                        });
-                        // Call the createBiodataApi to create a new sample
-                        await controller.createBiodataApi();
-
-                        // After adding the new sample, fetch the updated biodata list
-                        final biodataController =
-                            Provider.of<ShowbiodataController>(context,
-                                listen: false);
-                        await biodataController.fetchBiodata();
-                      },
-                      icon: const Icon(Icons.add, size: 18),
-                      label: const Text(
-                        'Add Sample',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFFFF5507),
-                        foregroundColor: Colors.white,
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 8, vertical: 10),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ],
-          ),
-          const SizedBox(height: 15),
-
-          // Displaying the Biodata List
-          Expanded(
-            child: Consumer<ShowbiodataController>(
-              builder: (context, controller, _) {
-                // Show loading indicator while data is being fetched
-                if (controller.loading) {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-
-                // If no biodata is available, show a message
-                if (controller.userData.isEmpty) {
-                  return const Center(
-                    child: Text('No data available'),
-                  );
-                }
-
-                // Show the biodata list
-                return ListView.builder(
-                  itemCount: controller.userData.length,
-                  itemBuilder: (context, index) {
-                    final biodata = controller.userData[index];
-
-                    return Card(
-                      color: Colors.white,
-                      elevation: 5,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 5, horizontal: 10),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 8.0, horizontal: 10.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            ListTile(
-                              leading: CircleAvatar(
-                                backgroundImage:
-                                    AssetImage("assets/images/profile.png"),
-                                radius: 30,
-                              ),
-                              title: Text(
-                                '${biodata['username'] ?? 'John'}',
-                                style: const TextStyle(
-                                    fontWeight: FontWeight.bold),
-                              ),
-                              subtitle: Text(
-                                'Caste: ${biodata['caste'] ?? 'Maratha'} \nHeight: ${biodata['height']}',
-                              ),
-                            ),
-                            Container(
-                              color: Colors.grey[200],
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  IconButton(
-                                    icon: const Icon(Icons.edit,
-                                        color: Colors.grey),
-                                    onPressed: () {
-                                      // Edit functionality
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              AllDetailsPage(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.copy,
-                                        color: Colors.grey),
-                                    onPressed: () {
-                                      // Implement copy functionality
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.delete,
-                                        color: Colors.grey),
-                                    onPressed: () {
-                                      // Implement delete functionality
-                                      // _showDeleteConfirmationDialog(context, biodata['id']?.toString());
-                                    },
-                                  ),
-                                  IconButton(
-                                    icon: const Icon(Icons.file_copy,
-                                        color: Colors.grey),
-                                    onPressed: () {
-                                      // Template change functionality
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) =>
-                                              TemplateSelectionPage(
-                                            id: (biodata['id'] ?? '')
-                                                .toString(),
-                                          ),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Example function for showing a delete confirmation dialog
-  // void _showDeleteConfirmationDialog(BuildContext context, String? biodataId) {
-  //   showDialog(
-  //     context: context,
-  //     builder: (BuildContext context) {
-  //       return AlertDialog(
-  //         title: const Text('Confirm Delete'),
-  //         content: const Text('Are you sure you want to delete this biodata?'),
-  //         actions: [
-  //           TextButton(
-  //             onPressed: () {
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Cancel'),
-  //           ),
-  //           TextButton(
-  //             onPressed: () {
-  //               // Call the delete functionality and pass the biodataId
-  //               final controller = Provider.of<ShowbiodataController>(context, listen: false);
-  //               controller.deleteBiodata(biodataId);
-  //               Navigator.of(context).pop();
-  //             },
-  //             child: const Text('Delete'),
-  //           ),
-  //         ],
-  //       );
-  //     },
-  //   );
-  // }
-}
+// this is home screen

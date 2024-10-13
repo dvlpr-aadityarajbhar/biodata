@@ -1,3 +1,6 @@
+import 'package:bio_data/controller/delete_templet_controller.dart';
+import 'package:bio_data/controller/home_screen_controller.dart';
+import 'package:bio_data/controller/swapping_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,6 +35,15 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (_) => FetchbiodatadetailsController(),
         ),
+        ChangeNotifierProvider(
+          create: (_) => SwappingController(),
+        ),
+        // ChangeNotifierProvider(
+        //   create: (_) => DeleteTemplateController(),
+        // ),
+        ChangeNotifierProvider(
+          create: (_) => HomeScreenController(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -40,7 +52,7 @@ class MyApp extends StatelessWidget {
         // home: HomePage(),
         home: const CheckAuth(),
         routes: {
-          '/home': (context) => const HomePage(),
+          '/home': (context) => HomePage(),
           '/login': (context) => LoginForm(
                 onLoginSuccess: () {
                   Navigator.pushReplacementNamed(context, '/home');
@@ -93,7 +105,7 @@ class _CheckAuthState extends State<CheckAuth> {
       );
     } else {
       if (isLoggedIn) {
-        return const HomePage();
+        return HomePage();
       } else {
         return LoginForm(
           onLoginSuccess: () {

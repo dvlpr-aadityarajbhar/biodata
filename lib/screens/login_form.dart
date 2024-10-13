@@ -59,13 +59,15 @@ class _LoginFormState extends State<LoginForm> {
           await prefs.setString('biodata_id', "");
           await prefs.setBool('isLoggedIn', true);
           log(matriId);
+          log("Login Successfully");
           widget.onLoginSuccess();
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => const HomePage()),
+            MaterialPageRoute(builder: (context) => HomePage()),
           );
         } else {
           _showErrorDialog(data["error_msg"]);
+          log("Login Failed");
         }
       } catch (e) {
         _showErrorDialog("Server side error.");
