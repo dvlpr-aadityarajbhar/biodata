@@ -2058,15 +2058,27 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
       final imageMemory = pw.MemoryImage(pngBytes);
       pdf.addPage(
         pw.Page(
-          pageFormat: PdfPageFormat.a6, // You can adjust the page format
+          pageFormat: PdfPageFormat.a6.copyWith(
+            marginBottom: 0,
+            marginLeft: 0,
+            marginRight: 0,
+            marginTop: 0,
+          ), // You can adjust the page format
+          // pageFormat: PdfPageFormat.a6,
           build: (pw.Context context) {
-            return pw.Container(
-              height: double.infinity,
-              width: double.infinity,
-              child: pw.Image(
-                imageMemory,
-                fit: pw.BoxFit.cover,
-              ), // Ensure the image fits the page
+            return pw.Center(
+              child: pw.Expanded(
+                child: pw.Container(
+                  width: double.infinity,
+                  child: pw.Image(
+                    width: PdfPageFormat.a6.width,
+                    // width: 575,
+                    height: PdfPageFormat.a6.height,
+                    imageMemory,
+                    fit: pw.BoxFit.contain,
+                  ),
+                ),
+              ),
             );
           },
         ),
@@ -2112,15 +2124,15 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                   key: _globalKey,
                   child: Container(
                     // color: Colors.grey.shade400,
-                    width: double.infinity,
-                    height: double.infinity,
+                    // width: double.infinity,
+                    // height: double.infinity,
                     child: Stack(
                       children: [
                         // Background template image
                         Positioned(
                           child: Container(
-                            width: double.infinity,
-                            height: double.infinity,
+                            width: 630,
+                            height: 910,
                             // decoration: BoxDecoration(
                             //   image: DecorationImage(
                             //     image: AssetImage(
@@ -2131,8 +2143,8 @@ class _BiodataPreviewPageState extends State<BiodataPreviewPage> {
                             // ),
                             child: Image.network(
                               widget.templateImage,
-                              height: double.infinity,
-                              width: double.infinity,
+                              // height: double.infinity,
+                              // width: double.infinity,
                               fit: BoxFit.cover,
                             ),
                           ),

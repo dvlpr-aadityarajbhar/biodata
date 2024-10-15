@@ -7,7 +7,20 @@ class TermsAndConditionsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Terms and Conditions'),
+        leading: IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.white,
+            )),
+        title: const Text(
+          'Terms and Conditions',
+          style: TextStyle(
+            color: Colors.white,
+          ),
+        ),
       ),
       body: const SingleChildScrollView(
         padding: EdgeInsets.all(16.0),

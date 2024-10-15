@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import '../consts/colors.dart';
 import 'TermsAndConditionsPage.dart';
 import 'home_screen/home_page.dart';
 import 'login_form.dart';
@@ -113,8 +114,19 @@ class _SignupFormState extends State<SignupForm> {
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            const SizedBox(height: 80),
+            IconButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              icon: Icon(
+                Icons.arrow_back,
+                size: 40,
+                color: AppColors.orangeColor,
+              ),
+            ),
+            const SizedBox(height: 60),
             Center(
               child: Column(
                 children: [
@@ -213,27 +225,30 @@ class _SignupFormState extends State<SignupForm> {
                     const SizedBox(height: 20),
                     Row(
                       children: [
-                        Checkbox(
-                          value: _agreeToTerms,
-                          onChanged: (bool? value) {
-                            setState(
-                              () {
-                                _agreeToTerms = value!;
-                              },
-                            );
-                          },
-                        ),
+                        // Checkbox(
+                        //   value: _agreeToTerms,
+                        //   onChanged: (bool? value) {
+                        //     setState(
+                        //       () {
+                        //         _agreeToTerms = value!;
+                        //       },
+                        //     );
+                        //   },
+                        // ),
                         Expanded(
                           child: RichText(
                             text: TextSpan(
-                              text: 'I have read and agree to the ',
+                              text: 'By submitting you agree our ',
                               style: const TextStyle(
-                                  color: Colors.black, fontSize: 14.0),
+                                color: Colors.black54,
+                                fontSize: 16.0,
+                              ),
                               children: [
                                 TextSpan(
                                   text: 'terms and conditions.',
                                   style: const TextStyle(
                                     color: Colors.blue,
+                                    fontSize: 14,
                                     decoration: TextDecoration.underline,
                                   ),
                                   recognizer: TapGestureRecognizer()
@@ -252,6 +267,64 @@ class _SignupFormState extends State<SignupForm> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    ElevatedButton(
+                      onPressed: _isLoading ? null : _registerUser,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: const Color(0xFFFF5507),
+                        foregroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        minimumSize: const Size(double.infinity, 40),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(23),
+                        ),
+                      ),
+                      child: _isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : const Text(
+                              'Submit',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                    ),
+                    SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      children: [
+                        Text(
+                          "You have already an account?  ",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Colors.purple,
+                            fontWeight: FontWeight.w400,
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(25),
+                              border: Border.all(
+                                color: AppColors.orangeColor,
+                              ),
+                            ),
+                            child: Text(
+                              "Login Now",
+                              style: TextStyle(
+                                color: AppColors.orangeColor,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),
@@ -259,54 +332,54 @@ class _SignupFormState extends State<SignupForm> {
           ],
         ),
       ),
-      bottomNavigationBar: Padding(
-        // Add padding around the button
-        padding: const EdgeInsets.symmetric(vertical: 16.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ElevatedButton(
-              onPressed: _isLoading ? null : _registerUser,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFFFF5507),
-                foregroundColor: Colors.white,
-                padding: const EdgeInsets.symmetric(vertical: 16.0),
-                minimumSize: const Size(280, 60),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(23),
-                ),
-              ),
-              child: _isLoading
-                  ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text('Sign up'),
-            ),
-            const SizedBox(height: 10),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LoginForm(
-                      onLoginSuccess: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => HomePage(),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                );
-              },
-              child: const Text(
-                "Already have an account? Login",
-                style: TextStyle(color: Colors.black),
-              ),
-            ),
-          ],
-        ),
-      ),
+      // bottomNavigationBar: Padding(
+      //   // Add padding around the button
+      //   padding: const EdgeInsets.symmetric(vertical: 16.0),
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     children: [
+      //       ElevatedButton(
+      //         onPressed: _isLoading ? null : _registerUser,
+      //         style: ElevatedButton.styleFrom(
+      //           backgroundColor: const Color(0xFFFF5507),
+      //           foregroundColor: Colors.white,
+      //           padding: const EdgeInsets.symmetric(vertical: 16.0),
+      //           minimumSize: const Size(280, 60),
+      //           shape: RoundedRectangleBorder(
+      //             borderRadius: BorderRadius.circular(23),
+      //           ),
+      //         ),
+      //         child: _isLoading
+      //             ? const CircularProgressIndicator(color: Colors.white)
+      //             : const Text('Submit'),
+      //       ),
+      //       const SizedBox(height: 10),
+      //       TextButton(
+      //         onPressed: () {
+      //           Navigator.push(
+      //             context,
+      //             MaterialPageRoute(
+      //               builder: (context) => LoginForm(
+      //                 onLoginSuccess: () {
+      //                   Navigator.push(
+      //                     context,
+      //                     MaterialPageRoute(
+      //                       builder: (context) => HomePage(),
+      //                     ),
+      //                   );
+      //                 },
+      //               ),
+      //             ),
+      //           );
+      //         },
+      //         child: const Text(
+      //           "Already have an account? Login",
+      //           style: TextStyle(color: Colors.black),
+      //         ),
+      //       ),
+      //     ],
+      //   ),
+      // ),
     );
   }
 }

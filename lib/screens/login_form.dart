@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 
+import 'package:bio_data/screens/login_otp_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -25,6 +26,64 @@ class _LoginFormState extends State<LoginForm> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  // void _login() async {
+  //   if (_formKey.currentState!.validate()) {
+  //     setState(() {
+  //       _isLoading = true;
+  //     });
+
+  //     final String email = _emailController.text.trim();
+  //     final String password = _passwordController.text.trim();
+
+  //     try {
+  //       const String apiUrl =
+  //           'https://techfluxsolutions.com/royal_maratha/api/login';
+
+  //       final response = await http.post(
+  //         // print();
+  //         // return;
+  //         Uri.parse(apiUrl),
+  //         body: {
+  //           'email': email,
+  //           'password': password,
+  //         },
+  //       );
+
+  //       print('Response status: ${response.statusCode}');
+  //       print('Response body: ${response.body}');
+
+  //       var data = jsonDecode(response.body);
+  //       if (data["response"] == true) {
+  //         var tokenKey = data["data"]["token"];
+  //         var matriId = data["data"]["matri_id"];
+
+  //         final SharedPreferences prefs = await SharedPreferences.getInstance();
+  //         await prefs.setString('token_key', tokenKey);
+  //         await prefs.setString('matri_id', matriId);
+  //         await prefs.setString('biodata_id', "");
+  //         await prefs.setBool('isLoggedIn', true);
+  //         log(matriId);
+  //         log("Login Successfully");
+  //         widget.onLoginSuccess();
+  //         Navigator.pushReplacement(
+  //           context,
+  //           MaterialPageRoute(builder: (context) => HomePage()),
+  //         );
+  //       } else {
+  //         _showErrorDialog(data["error_msg"]);
+  //         log("Login Failed");
+  //       }
+  //     } catch (e) {
+  //       log(e.toString());
+  //       _showErrorDialog("Server side error.");
+  //     } finally {
+  //       setState(() {
+  //         _isLoading = false;
+  //       });
+  //     }
+  //   }
+  // }
+
   void _login() async {
     if (_formKey.currentState!.validate()) {
       setState(() {
@@ -39,10 +98,11 @@ class _LoginFormState extends State<LoginForm> {
             'https://techfluxsolutions.com/royal_maratha/api/login';
 
         final response = await http.post(
-          // print();
-          // return;
           Uri.parse(apiUrl),
-          body: {'email': email, 'password': password},
+          body: {
+            'email_or_phone': email,
+            'password': password,
+          },
         );
 
         print('Response status: ${response.statusCode}');
@@ -58,18 +118,29 @@ class _LoginFormState extends State<LoginForm> {
           await prefs.setString('matri_id', matriId);
           await prefs.setString('biodata_id', "");
           await prefs.setBool('isLoggedIn', true);
+
           log(matriId);
           log("Login Successfully");
+
           widget.onLoginSuccess();
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => HomePage()),
           );
         } else {
-          _showErrorDialog(data["error_msg"]);
+          // Handling error_msg when it's a Map
+          var errorMsg = data["error_msg"];
+          if (errorMsg is Map) {
+            // Extract the message from the map (e.g., "email_or_phone" field)
+            String errorMessage = errorMsg.values.first.join(", ");
+            _showErrorDialog(errorMessage);
+          } else {
+            _showErrorDialog(errorMsg.toString());
+          }
           log("Login Failed");
         }
       } catch (e) {
+        log(e.toString());
         _showErrorDialog("Server side error.");
       } finally {
         setState(() {
@@ -129,7 +200,7 @@ class _LoginFormState extends State<LoginForm> {
 
               // Use a SizedBox to provide height constraints to the ListView
               SizedBox(
-                height: 300, // Provide a fixed height here or make it dynamic
+                height: 200, // Provide a fixed height here or make it dynamic
                 child: Form(
                   key: _formKey,
                   child: ListView(
@@ -192,7 +263,12 @@ class _LoginFormState extends State<LoginForm> {
                                     builder: (context) =>
                                         const ForgotPasswordPage()));
                           },
-                          child: const Text('Forgot Password?'),
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(
+                              color: Colors.deepPurple,
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -207,37 +283,75 @@ class _LoginFormState extends State<LoginForm> {
                   backgroundColor: const Color(0xFFFF5507),
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  minimumSize: const Size(280, 30),
+                  minimumSize: const Size(double.infinity, 25),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(23),
                   ),
                 ),
                 child: _isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : const Text('Login'),
+                    ? SizedBox(
+                        height: 30,
+                        child: const CircularProgressIndicator(
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        'Login',
+                        style: TextStyle(
+                          color: Colors.white,
+                          // fontSize: 18,
+                        ),
+                      ),
               ),
               const SizedBox(height: 10),
-              // ElevatedButton(
-              //   onPressed: () {
-              //     Navigator.push(
-              //       context,
-              //       MaterialPageRoute(
-              //           builder: (context) => const Loginwithotppage()),
-              //     );
-              //   },
-              //   style: ElevatedButton.styleFrom(
-              //     backgroundColor: const Color(0xFFFF5507),
-              //     foregroundColor: Colors.white,
-              //     padding: const EdgeInsets.symmetric(vertical: 16.0),
-              //     minimumSize: const Size(280, 30),
-              //     shape: RoundedRectangleBorder(
-              //       borderRadius: BorderRadius.circular(23),
-              //     ),
-              //   ),
-              //   child: const Text('Login with OTP'),
-              // ),
+              Text(
+                "OR",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               const SizedBox(height: 10),
-              TextButton(
+
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) {
+                        return LoginOtpScreen();
+                      },
+                    ),
+                  );
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF5507),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  minimumSize: const Size(double.infinity, 25),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(23),
+                  ),
+                ),
+                child: const Text(
+                  'Login with OTP',
+                  style: TextStyle(
+                    color: Colors.white,
+                    // fontSize: 18,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 10),
+              FilledButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xFFFF5507),
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  minimumSize: const Size(double.infinity, 25),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(23),
+                  ),
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -246,7 +360,10 @@ class _LoginFormState extends State<LoginForm> {
                 },
                 child: const Text(
                   'New User? Sign up',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(
+                    color: Colors.white,
+                    // fontSize: 18,
+                  ),
                 ),
               ),
             ],

@@ -127,4 +127,39 @@ class HomeScreenApis {
       return false;
     }
   }
+
+  // New Copy Sample API
+  Future<bool> copySampleApi(String id) async {
+    Uri url = Uri.parse(
+        "https://techfluxsolutions.com/royal_maratha/api/users/copy_sample_template");
+
+    // Payload with the sample id to be copied
+    var payload = {
+      "id": id,
+    };
+
+    try {
+      http.Response res = await http.post(
+        url,
+        body: jsonEncode(payload),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+      );
+
+      if (res.statusCode == 200) {
+        log("Sample copied successfully: ${res.statusCode}");
+        log(res.body.toString());
+        return true;
+      } else {
+        log("Failed to copy sample: ${res.statusCode}");
+        return false;
+      }
+    } catch (e, t) {
+      log("Exception occurred while copying sample: $e");
+      log("Stacktrace: $t");
+      return false;
+    }
+  }
 }
